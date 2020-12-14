@@ -11,7 +11,7 @@ class Cheese(TimeStampedModel):
   description = models.TextField('Description', blank=True)
 
   def __str__(self):
-    return "Cheese's name is " + self.name
+    return self.name
 
 
   class Firmness(models.TextChoices):
