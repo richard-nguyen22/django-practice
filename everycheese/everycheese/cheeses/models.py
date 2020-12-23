@@ -1,8 +1,10 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django_countries.fields import CountryField
+
 from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
-from django_countries.fields import CountryField
 
 class Cheese(TimeStampedModel):
   name = models.CharField('Name of Cheese', max_length=255)
@@ -12,6 +14,8 @@ class Cheese(TimeStampedModel):
   # TextField's length can exceed 255, CharField cannot
   description = models.TextField('Description', blank=True)
   country_of_origin = CountryField("Country of Origin", blank=True)
+  creator = models.ForeignKey(settings.AUTH_USER_MODEL,
+    null=True, on_delete=models.SET_NULL) # Save user who changes cheese
 
   def get_absolute_url(self):
     ''' Return absolute URL to the Cheese Detail page'''
